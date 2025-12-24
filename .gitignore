@@ -1,0 +1,8 @@
+# Python runtime
+__pycache__/
+
+# Uploaded files (runtime data)
+uploads/
+
+# Processing state (generated)
+processingStatus.json
