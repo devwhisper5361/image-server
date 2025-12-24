@@ -1,4 +1,5 @@
-# Image Server
+# Image Server v1.0
+[Changelog](../CHANGELOG.md)
 
 ## Overview
 This small hobby project allows uploading images from a (phone) browser and processing them in background Qt 6 container on Raspberry Pi or other platforms.
