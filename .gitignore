@@ -1,8 +1,15 @@
-# Python runtime
+# -------- Python runtime --------
 __pycache__/
+*.pyc
 
-# Uploaded files (runtime data)
+# -------- Runtime data --------
 uploads/
-
-# Processing state (generated)
 processingStatus.json
+
+# -------- Virtual environments --------
+venv/
+.venv/
+
+# -------- Environment variables --------
+.env
+.env.*

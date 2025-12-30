@@ -5,18 +5,35 @@ app.py
 
 import concurrent.futures
 import os
-from flask import Flask, render_template, request
+from flask import Flask, request, send_from_directory
+from auth import auth  # import auth from auth.py
+from flask_cors import CORS
 
 from qtRunner import QtContainer
 from loggerUtil import Logger
 from config import UPLOAD_FOLDER
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder="dist",
+    static_url_path=""
+)
+CORS(app)  # allow all origins temporarily
+
+@app.route("/ping")
+def ping():
+    return "pong"
 
 @app.route('/')
+@auth.login_required
 def index():
-    """Render the main upload page."""
-    return render_template("index.html")
+    return send_from_directory(app.static_folder, "index.html")
+
+# Serve React assets (JS, CSS)
+@app.route("/assets/<path:path>")
+@auth.login_required
+def assets(path):
+    return send_from_directory(os.path.join(app.static_folder, "assets"), path)
 
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=4)
 
@@ -25,6 +42,7 @@ logger = Logger()
 qtContainer = QtContainer(logger)
 
 @app.route('/upload', methods=['POST'])
+@auth.login_required
 def upload():
     """Upload images to a designated folder and calls for image processing"""
     if 'images' not in request.files:
